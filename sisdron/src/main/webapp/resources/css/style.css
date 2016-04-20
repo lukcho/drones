@@ -1,0 +1,13 @@
+/*****PRIMEFACES*******/
+.ui-button{
+	font-size: 15px;
+}
+
+.ui-table-header-align-left > div > table > tr > th {
+	text-align: right;
+}
+
+.outLabel{
+	color: #317EAC;
+	font-size: 15px;
+}

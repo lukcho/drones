@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+	<ui:composition template="template.xhtml">
+		<ui:define name="titulo">
+            Reporte Usuarios Club de Drones
+        </ui:define>
+		<ui:define name="contenido">
+			<h:form>
+				<center><h1>REPORTE USUARIOS REGISTRADOS</h1></center>
+<!-- 				<b:row> -->
+<!-- 					<b:column span="2"><h:outputText value="Seleccione periodo:"/></b:column> -->
+<!-- 					<b:column span="4"> -->
+<!-- 						<b:selectOneMenu value="#{rptRegistroBean.periodo}"> -->
+<!-- 							<f:selectItems value="#{rptRegistroBean.listadoPeriodos()}"/> -->
+<!-- 						</b:selectOneMenu>						 -->
+<!-- 					</b:column>					 -->
+<!-- 				</b:row>				 -->
+				<b:row>
+<!-- 					<b:column span="1"> -->
+<!-- 						<b:commandButton value="Generar" actionListener="#{rptRegistroBean.consultar()}"  -->
+<!-- 							update=":frmp" /> -->
+<!-- 					</b:column> -->
+					<b:column span="1">
+						<b:commandButton value="Volver" iconAwesome="angle-left" action="index?faces-redirect=true"/> 
+					</b:column>
+				</b:row>
+			</h:form>
+			<br/>
+			<h:form id="frmp">
+				<p:messages closable="true"></p:messages>
+				<b:panel title="Listado de Registrados" look="primary">
+					<p:dataTable id="tb" var="pd" value="#{rptRegistroBean.listaRegistros}" emptyMessage="Sin Datos"
+			                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			                 paginator="true" rows="10" style="margin-bottom:20px">
+			                <p:column headerText="Opciones" exportable="false">
+								<p:commandButton icon="ui-icon-pencil" actionListener="#{rptRegistroBean.cargarDatos(pd)}" update=":frmed"/>
+							</p:column>
+			                <p:column headerText="Cédula">
+								<h:outputText value="#{pd.perCedula}"></h:outputText>
+							</p:column>
+							<p:column headerText="Fecha Registro">
+								<h:outputText value="#{pd.perFechaReg}">
+								<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Apellidos">
+								<h:outputText value="#{pd.perApellidos}"></h:outputText>
+							</p:column>
+							<p:column headerText="Nombres">
+								<h:outputText value="#{pd.perNombres}"></h:outputText>
+							</p:column>
+							<p:column headerText="Correo">
+								<h:outputText value="#{pd.perCorreo}"></h:outputText>
+							</p:column>
+							<p:column headerText="Teléfono">
+								<h:outputText value="#{pd.perTelefono}"></h:outputText>
+							</p:column>
+							<p:column headerText="Nacionalidad">
+								<h:outputText value="#{pd.perNacionalidad}"></h:outputText>
+							</p:column>
+							<p:column headerText="Ciudad de Residencia">
+								<h:outputText value="#{pd.perResidencia}"></h:outputText>
+							</p:column>
+							<p:column headerText="Experiencia">
+									<p:selectBooleanCheckbox disabled="true" value="#{pd.perExperiencia}"/>
+							 </p:column>
+							<p:column headerText="Posee Dron">
+									<p:selectBooleanCheckbox disabled="true" value="#{pd.perPoseedron}"/>
+				 			</p:column>
+				 			<p:column headerText="Interés">
+								<h:outputText value="#{pd.perInteres}"></h:outputText>
+							</p:column>						
+			        </p:dataTable>
+			        <h3>Exportar Datos</h3>
+				    <h:commandLink style="margin-right:5px">
+				        <h:graphicImage value="/resources/img/excel.png" width="35"/>
+				        <p:dataExporter type="xls" target="tb" fileName="rptusuarios" pageOnly="true"/>
+				    </h:commandLink>
+				 
+				    <h:commandLink style="margin-right:5px">
+				        <h:graphicImage value="/resources/img/pdf.png"  width="35"/>
+				        <p:dataExporter type="pdf" target="tb" fileName="rptusuarios" pageOnly="false" />
+				    </h:commandLink>
+				 
+				    <h:commandLink style="margin-right:5px">
+				        <h:graphicImage value="/resources/img/csv.png"  width="35"/>
+				        <p:dataExporter type="csv" target="tb" fileName="rptusuarios" pageOnly="true" />
+				    </h:commandLink>
+				 
+				    <h:commandLink style="margin-right:5px">
+				        <h:graphicImage value="/resources/img/xml.png"  width="35"/>
+				        <p:dataExporter type="xml" target="tb" fileName="rptusuarios" pageOnly="true" />
+				    </h:commandLink>
+				</b:panel>
+			</h:form>
+			<p:dialog  header="Edición de registro" widgetVar="dlged" width="600" modal="true" resizable="false" closable="false"
+			position="top" responsive="true"  draggable="true">
+			<h:form id="frmed">
+				<p:messages closable="true" id="amsj"></p:messages>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Cédula: " /></b:column>
+					<b:column col-xs="8"><b:inputText value="#{rptRegistroBean.cedula}" disabled="true"/></b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Nombres: " /></b:column>
+					<b:column col-xs="8">
+						<b:inputText value="#{rptRegistroBean.nombres}" required="true" requiredMessage="Campo nombres requerido"/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Apellidos: " /></b:column>
+					<b:column col-xs="8">
+						<b:inputText value="#{rptRegistroBean.apellidos}" required="true" requiredMessage="Campo apellidos requerido"/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Correo: " /></b:column>
+					<b:column col-xs="8">
+						<b:inputText value="#{rptRegistroBean.correo}" required="true" requiredMessage="Campo correo requerido"/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Teléfono: " /></b:column>
+					<b:column col-xs="8">
+						<b:inputText value="#{rptRegistroBean.telefono}" required="true" requiredMessage="Campo teléfono requerido"/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Nacionalidad: " /></b:column>
+					<b:column col-xs="8">
+						<b:inputText value="#{rptRegistroBean.nacionalidad}" required="true" requiredMessage="Campo nacionalidad requerido"/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Residencia: " /></b:column>
+					<b:column col-xs="8">
+						<b:inputText value="#{rptRegistroBean.residencia}" required="true" requiredMessage="Campo residencia requerido"/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Posee dron?" /></b:column>
+					<b:column col-xs="8">
+						<p:selectOneRadio  value="#{rptRegistroBean.poseeDron}" style="margin-top:10px" >
+				            <f:selectItem itemLabel="SI" itemValue="true" />&sbn;&sbn;&sbn;
+				            <f:selectItem itemLabel="NO" itemValue="false" />
+			       	    </p:selectOneRadio>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Posee experiencia?" /></b:column>
+					<b:column col-xs="8">
+						<p:selectOneRadio  value="#{rptRegistroBean.poseeExperiencia}" style="margin-top:10px" >
+				            <f:selectItem itemLabel="SI" itemValue="true" />&sbn;&sbn;&sbn;
+				            <f:selectItem itemLabel="NO" itemValue="false" />
+			       	    </p:selectOneRadio>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column col-xs="4"><h:outputText value="Interés: " /></b:column>
+					<b:column col-xs="8">
+						<b:inputTextarea rows="3" span="100" maxlength="200" fieldSize="sm" renderLabel="true"  required="true" value="#{rptRegistroBean.interes}"
+							requiredMessage="Requerido Interés"/>
+					</b:column>
+				</b:row>
+				<b:row style="margin-top: 10px;">
+					<b:column col-xs="2">
+						<p:commandButton value="Aceptar" actionListener="#{rptRegistroBean.editarRegistro()}" style="padding: .4em 0em;" 
+	    				styleClass="btn-default" update="frmed :frmp"/>
+					</b:column>
+					<b:column col-xs="2">
+						<h:commandButton type="button" value="Cancelar" onclick="PF('dlged').hide();"
+			    			styleClass="btn btn-default">
+						    <f:ajax />
+						</h:commandButton>
+					</b:column>
+				</b:row>
+			</h:form>
+		</p:dialog>
+		</ui:define>
+	</ui:composition>
+
+</html>
