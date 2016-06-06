@@ -90,10 +90,12 @@ public class SesionBean implements Serializable{
 			}else{
 				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "SISDRON"));
 				setPass(null);
+				System.out.println("------------------> ACCESO CORRECTO");
 				return "/views/index?faces-redirect=true";
 			}
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR(e.getMessage());setPass(null);
+			System.out.println("------------------> ERROR LOGIN: "+e.getMessage());
 			return "";
 		}
 	}

@@ -234,10 +234,12 @@ public class RptRegistroBean implements Serializable{
 	}
 
 	/**
+	 * Método para listar los periodos
 	 * 
-	 * @return
+	 * @return periodos
 	 */
 	public List<SelectItem> listadoPeriodos(){
+		
 		List<SelectItem> periodos = new ArrayList<SelectItem>();
 		periodos.add(new SelectItem("all", "Todos los periodos"));
 		for (String periodo : mngReg.findAllPeriodos()) {
@@ -247,9 +249,12 @@ public class RptRegistroBean implements Serializable{
 	}
 
 	/**
+	 * Método pararealizar listar los resgistros
+	 * 
 	 * 
 	 */
 	public void consultar(){
+		
 		try {
 			getListaRegistros().clear();
 			getListaRegistros().addAll(mngReg.findAllRegistrosPeriodo(getPeriodo()));
@@ -259,10 +264,12 @@ public class RptRegistroBean implements Serializable{
 	}
 	
 	/**
+	 * Método para cargar datos de la persona
 	 * 
 	 * @param registro
 	 */
 	public void cargarDatos(RegDronPersona registro){
+		
 		setNombres(registro.getPerNombres());
 		setApellidos(registro.getPerApellidos());
 		setCedula(registro.getPerCedula());
@@ -277,9 +284,11 @@ public class RptRegistroBean implements Serializable{
 	}
 	
 	/**
+	 * Método para editar el registro de la persona
 	 * 
 	 */
 	public void editarRegistro(){
+		
 		try {
 			RegDronPersona reg = new RegDronPersona();
 			reg.setPerCedula(getCedula().trim());
@@ -299,5 +308,4 @@ public class RptRegistroBean implements Serializable{
 			Mensaje.crearMensajeERROR("ERROR: "+e.getMessage());
 		}
 	}
-
 }
