@@ -25,3 +25,14 @@ CREATE TABLE reg_dron_persona
   per_interes character varying(200),
   CONSTRAINT reg_dron_persona_pkey PRIMARY KEY (per_cedula)
 );
+
+/*==============================================================*/
+/* Table: REG_PARAMETROS                                        */
+/*==============================================================*/
+create table REG_PARAMETROS (
+   PAR_ID               VARCHAR(30)          not null,
+   PAR_NOMBRE           VARCHAR(50)          null,
+   PAR_VALOR            TEXT                 null,
+   constraint PK_REG_PARAMETROS primary key (PAR_ID)
+);
+

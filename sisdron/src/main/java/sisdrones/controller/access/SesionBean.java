@@ -150,7 +150,7 @@ public class SesionBean implements Serializable{
 		 SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
 	            try {
-	                FacesContext.getCurrentInstance().getExternalContext().redirect("/sisdrones/login/index.xhtml");
+	                FacesContext.getCurrentInstance().getExternalContext().redirect("../login/index.xhtml");
 	            } catch (IOException ex) {
 	            	Mensaje.crearMensajeERROR(ex.getMessage());
 	            }

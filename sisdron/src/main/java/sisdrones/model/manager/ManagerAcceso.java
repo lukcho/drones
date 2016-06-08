@@ -3,6 +3,7 @@ package sisdrones.model.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.json.simple.JSONArray;
@@ -12,10 +13,14 @@ import sisdrones.controller.access.Menu;
 import sisdrones.controller.access.Submenu;
 import sisdrones.controller.generic.Funciones;
 import sisdrones.model.webservices.ConsumeREST;
+import sisdrones.model.dao.entities.RegParametro;
+import sisdrones.model.manager.ManagerDAO;
 
 @Stateless
 public class ManagerAcceso {
 	
+	@EJB
+	private ManagerDAO mDAO;
 
 	public ManagerAcceso() {
 	}
@@ -54,16 +59,29 @@ public class ManagerAcceso {
 	@SuppressWarnings("unchecked")
 	public List<Menu> loginWS(String usr, String pass, String aplicacion) throws Exception
 	{
+		RegParametro param = parametroByID("login_ws");
+		if(param == null)
+			throw new Exception("error al consultar parametro de logeo");
 		List<Menu> lmenu = new ArrayList<Menu>();
 		JSONObject salida = new JSONObject();
 		salida.put("usr", usr);salida.put("pwd", pass);salida.put("apl", aplicacion);
-		JSONObject respuesta = ConsumeREST.postClient(Funciones.hostWS+"WSLogin/postPermisos",salida);
+		JSONObject respuesta = ConsumeREST.postClient(param.getParValor(),salida);
 		if(!respuesta.get("status").equals("OK"))
 			throw new Exception("ERROR al consultar sus permisos: "+respuesta.get("mensaje").toString());
 		else
 			lmenu = cargarMenu((JSONArray) respuesta.get("value"));
 		return lmenu;
 		
+	}
+	
+	/**
+	 * buscar los vehuculos por ID
+	 * 
+	 * @param vehi_id
+	 * @throws Exception
+	 */
+	public RegParametro parametroByID(String parametro) throws Exception {
+		return (RegParametro) mDAO.findById(RegParametro.class, parametro);
 	}
 	
 	/**
