@@ -3,8 +3,10 @@ package sisdrones.controller.register;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
@@ -214,19 +216,30 @@ public class RegistroBean implements Serializable {
 	 * 
 	 */
 	public void validar() {
-		
 		try {
 			if (!Funciones.validacionCedula(getCedula().trim())) {
-				System.out.println("aqui se queda1");
+				Mensaje.crearMensajeINFO("Ingrese una cédula válida");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Ingrese una cédula válida", null));
 				throw new Exception("Ingrese una cédula válida");
 			} else if (mngReg.existeRegistroPeriodo(getCedula().trim(),
 					PERIODO_ACTUAL)) {
-				System.out.println("aqui se queda2");
-				throw new Exception("Usted ya se encuentra registrado.");
+				Mensaje.crearMensajeINFO("Usted ya se encuentra registrado");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Usted ya se encuentra registrado", null));
+				throw new Exception("Usted ya se encuentra registrado");
 			} else if (!getCorreo().trim().equals(getConfCorreo().trim())) {
-				System.out.println("aqui se queda3");
-				throw new Exception(
-						"Los correos no coinciden. Favor revisarlos.");
+				Mensaje.crearMensajeINFO("Los correos no coinciden Favor revisarlos");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Los correos no coinciden Favor revisarlos",
+								null));
+				throw new Exception("Los correos no coinciden Favor revisarlos");
 			} else
 				RequestContext.getCurrentInstance().execute(
 						"PF('dlgconf').show();");
@@ -239,8 +252,7 @@ public class RegistroBean implements Serializable {
 	 * Método para realizar el registro de usuarios
 	 * 
 	 */
-	public void registrarse() {
-		
+	public String registrarse() {
 		try {
 			RegDronPersona reg = new RegDronPersona();
 			reg.setPerCedula(getCedula().trim());
@@ -257,30 +269,50 @@ public class RegistroBean implements Serializable {
 			System.out.println("llega hasta aca");
 			mngReg.insertarDronPersona(reg);
 			System.out.println("inserta");
-			vaciarCampos();
 			System.out.println("limpia");
-			Mensaje.crearMensajeINFO("Registro correcto.");
+			Mensaje.crearMensajeINFO("Registro correcto");
+			this.setNombres("");
+			this.setApellidos("");
+			this.setCedula("");
+			this.setCorreo("");
+			this.setRecidencia("");
+			this.setConfCorreo("");
+			this.setNacionalidad("");
+			this.setTelefono("");
+			this.setInteres("");
+			this.setPoseeDron(false);
+			this.setPoseeExperiencia(false);
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Registro correcto", null));
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR("ERROR: " + e.getMessage());
 		}
+		return "index?faces-redirect=true";
 	}
 
 	/**
 	 * Método para limpiar los campos
 	 * 
 	 */
-	public void vaciarCampos() {
-		
-		this.setNombres("");
-		this.setApellidos("");
-		this.setCedula("");
-		this.setCorreo("");
-		this.setRecidencia("");
-		this.setConfCorreo("");
-		this.setNacionalidad("");
-		this.setTelefono("");
-		this.setInteres("");
-		this.setPoseeDron(false);
-		this.setPoseeExperiencia(false);
+	public String vaciarCampos() {
+		cedula = "";
+		nombres = "";
+		apellidos = "";
+		correo = "";
+		confCorreo = "";
+		nacionalidad = "";
+		recidencia = "";
+		telefono = "";
+		poseeDron = false;
+		poseeExperiencia = false;
+		interes = "";
+		Mensaje.crearMensajeINFO("Campos limpios");
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Campos limpios",
+						null));
+		return "index?faces-redirect=true";
 	}
 }

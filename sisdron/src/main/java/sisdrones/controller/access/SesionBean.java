@@ -16,20 +16,20 @@ import sisdrones.model.manager.ManagerAcceso;
 
 @ManagedBean
 @SessionScoped
-public class SesionBean implements Serializable{
+public class SesionBean implements Serializable {
 
 	/**
 	 * SERIAL ID
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private ManagerAcceso mngAcc;
-	
+
 	private String usuario;
 	private String pass;
 	private List<Menu> menu;
-	
+
 	public SesionBean() {
 		mngAcc = new ManagerAcceso();
 		menu = new ArrayList<Menu>();
@@ -43,7 +43,8 @@ public class SesionBean implements Serializable{
 	}
 
 	/**
-	 * @param usuario the usuario to set
+	 * @param usuario
+	 *            the usuario to set
 	 */
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
@@ -57,12 +58,13 @@ public class SesionBean implements Serializable{
 	}
 
 	/**
-	 * @param pass the pass to set
+	 * @param pass
+	 *            the pass to set
 	 */
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-			
+
 	/**
 	 * @return the menu
 	 */
@@ -71,89 +73,103 @@ public class SesionBean implements Serializable{
 	}
 
 	/**
-	 * @param menu the menu to set
+	 * @param menu
+	 *            the menu to set
 	 */
 	public void setMenu(List<Menu> menu) {
 		this.menu = menu;
 	}
-	
-	
+
 	/**
 	 * Permite ingresar al sistema
+	 * 
 	 * @return
 	 */
-	public String logIn(){
+	public String logIn() {
 		try {
-			if(getUsuario()==null || getUsuario().isEmpty() || getPass()==null || getPass().isEmpty()){
+			if (getUsuario() == null || getUsuario().isEmpty()
+					|| getPass() == null || getPass().isEmpty()) {
 				Mensaje.crearMensajeWARN("Campos usuario y contraseña requeridos");
 				return "";
-			}else{
+			} else {
 				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "SISDRON"));
 				setPass(null);
 				System.out.println("------------------> ACCESO CORRECTO");
 				return "/views/index?faces-redirect=true";
 			}
 		} catch (Exception e) {
-			Mensaje.crearMensajeERROR(e.getMessage());setPass(null);
-			System.out.println("------------------> ERROR LOGIN: "+e.getMessage());
+			Mensaje.crearMensajeERROR(e.getMessage());
+			setPass(null);
+			System.out.println("------------------> ERROR LOGIN: "
+					+ e.getMessage());
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Permite salir del Sistema
+	 * 
 	 * @return
 	 */
-	public String logOut(){
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.invalidate();
-        setPass(null);setUsuario(null);setMenu(new ArrayList<Menu>());
-        return "/index?faces-redirect=true";
+	public String logOut() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		session.invalidate();
+		setPass(null);
+		setUsuario(null);
+		setMenu(new ArrayList<Menu>());
+		return "/index?faces-redirect=true";
 	}
-	
+
 	/**
 	 * Verifica y devuelve el usuario en sesión
-	 * @param vista página principal de acceso
+	 * 
+	 * @param vista
+	 *            página principal de acceso
 	 * @return String
 	 */
-	public String validarSesion(String vista){
-		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                .getExternalContext().getSession(false);
-	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
-	     if (user==null || user.getUsuario() == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/sisdrones/login/index.xhtml");
-            } catch (IOException ex) {
-            	Mensaje.crearMensajeERROR(ex.getMessage());
-            }
-            return null;
-        }else{
-        	if(mngAcc.poseePermiso(vista, user.getMenu()))
-        		return user.getUsuario();
-        	else{
-        		try {
-       				FacesContext.getCurrentInstance().getExternalContext().redirect("/sisdrones/views/index.xhtml");
-	            } catch (IOException ex) {
-	            	Mensaje.crearMensajeERROR(ex.getMessage());
-	            }
-	            return null;
-        	}
-        }
+	public String validarSesion(String vista) {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+		if (user == null || user.getUsuario() == null) {
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("../login/index.xhtml");
+			} catch (IOException ex) {
+				Mensaje.crearMensajeERROR(ex.getMessage());
+			}
+			return null;
+		} else {
+			if (mngAcc.poseePermiso(vista, user.getMenu()))
+				return user.getUsuario();
+			else {
+				try {
+					FacesContext.getCurrentInstance().getExternalContext()
+							.redirect("/sisdrones/views/index.xhtml");
+				} catch (IOException ex) {
+					Mensaje.crearMensajeERROR(ex.getMessage());
+				}
+				return null;
+			}
+		}
 	}
-	
+
 	/**
-	  * Método para validar sesión en el INDEX
-	  */
-	 public void validaIndex(){
-		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                .getExternalContext().getSession(false);
-		 SesionBean user = (SesionBean) session.getAttribute("sesionBean");
-	     if (user==null || user.getUsuario() == null) {
-	            try {
-	                FacesContext.getCurrentInstance().getExternalContext().redirect("../login/index.xhtml");
-	            } catch (IOException ex) {
-	            	Mensaje.crearMensajeERROR(ex.getMessage());
-	            }
-	     }
-	 }
+	 * Método para validar sesión en el INDEX
+	 */
+	public void validaIndex() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+		if (user == null || user.getUsuario() == null) {
+			try {
+				System.out.println("valida se supone que envie");
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("/login/index.xhtml");
+			} catch (IOException ex) {
+				Mensaje.crearMensajeERROR(ex.getMessage());
+			}
+		}
+	}
 }

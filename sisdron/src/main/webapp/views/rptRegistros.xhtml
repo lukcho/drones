@@ -11,6 +11,10 @@
             Reporte Usuarios Club de Drones
         </ui:define>
 		<ui:define name="contenido">
+				<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 			<h:form>
 				<center><h1>REPORTE USUARIOS REGISTRADOS</h1></center>
 <!-- 				<b:row> -->

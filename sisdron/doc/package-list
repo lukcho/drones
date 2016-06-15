@@ -1,0 +1,8 @@
+com.airhacks
+sisdrones.controller.access
+sisdrones.controller.generic
+sisdrones.controller.register
+sisdrones.controller.reports
+sisdrones.model.dao.entities
+sisdrones.model.manager
+sisdrones.model.webservices

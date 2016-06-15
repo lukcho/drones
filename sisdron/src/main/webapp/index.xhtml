@@ -1,112 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:b="http://bootsfaces.net/ui">
-    <h:head>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui">
+<h:head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>SysDron</title>
-	<link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico" />
-</h:head> 
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<title>SysDron</title>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="resources/img/favicon.ico" />
+</h:head>
 <h:body>
 	<b:container>
-		<center><b:image id="logo1" value="resources/img/barradron.png" styleClass="img-responsive"/></center>	
+		<center>
+			<b:image id="logo1" value="resources/img/barradron.png"
+				styleClass="img-responsive" />
+		</center>
 		<b:row>
-			<b:column col-xs="12" col-sm="10" col-md="6" col-lg="6" styleClass="col-sm-offset-1 col-md-offset-3 col-lg-offset-3">
-				<b:panel title="Registro de Usuarios" look="primary" collapsible="false">
+			<b:column col-xs="12" col-sm="10" col-md="6" col-lg="6"
+				styleClass="col-sm-offset-1 col-md-offset-3 col-lg-offset-3">
+				<b:panel title="Registro de Usuarios" look="primary"
+					collapsible="false">
 					<h:form id="frm">
-						<p:messages closable="true"/>
+						<p:growl id="messages" showDetail="false" />
 						<b:row>
-			       				<b:column span="3"><h:outputLabel value="Cédula*: " /></b:column>
-			       				<b:column span="9">
-			       				<b:inputText  required="true" maxlength="10" value="#{registroBean.cedula}" requiredMessage="Requerido Cedula" validatorMessage="Cédula debe contener 10 dígitos">
+							<b:column span="3">
+								<h:outputLabel value="Cédula*: " for="cedu"/>
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="cedu" required="true" maxlength="10"
+									styleClass="form-control"
+									style="width:100%; margin-bottom:15px;"
+									value="#{registroBean.cedula}"
+									requiredMessage="Requerido Cedula"
+									validatorMessage="Cédula debe contener 10 dígitos">
 									<f:validateRegex pattern="[0-9]+" />
 									<f:validateLength minimum="10" maximum="10" />
-								</b:inputText> 
-								</b:column>
-			       		</b:row>
-						<b:row>
-			       				<b:column span="3"><h:outputLabel value="Apellidos*: " /></b:column>
-			       				<b:column span="9">
-			       				<b:inputText  required="true" value="#{registroBean.apellidos}" requiredMessage="Requerido Apellidos" validatorMessage="Apellidos sólo ingrese letras">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
-								</b:inputText>
-								</b:column>
-			       		</b:row>
-						<b:row>
-			       			<b:column span="3"><h:outputLabel value="Nombres*: " /></b:column>
-			       			<b:column span="9">
-			       				<b:inputText  required="true" value="#{registroBean.nombres}" requiredMessage="Requerido Nombres" validatorMessage="Nombres sólo ingrese letras">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
-								</b:inputText>
+								</p:inputText>
 							</b:column>
-			       		</b:row>
+						</b:row>
 						<b:row>
-			       			<b:column span="3"><h:outputLabel value="Correo*: " /></b:column>
-			       			<b:column span="9">
-			       				<b:inputText  required="true" value="#{registroBean.correo}" requiredMessage="Requerido Correo" validatorMessage="El formato del correo no es el correcto">
-								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-								</b:inputText>
-							</b:column>
-			       		</b:row>	
-				
-						<b:row>
-			       			<b:column span="3"><h:outputLabel value="Repetir Correo*: " /></b:column>
-			       			<b:column span="9">
-			       				<b:inputText  required="true" value="#{registroBean.confCorreo}" requiredMessage="Requerido repetir Correo" validatorMessage="El formato de repetir correo no es el correcto">
-								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-								</b:inputText>
-							</b:column>
-			       		</b:row>
-						<b:row>
-			       			<b:column span="3"><h:outputLabel value="Teléfono*: " /></b:column>
-			       			<b:column span="9">
-			       				<b:inputText  required="true" maxlength="10" value="#{registroBean.telefono}" requiredMessage="Requerido Teléfono" validatorMessage="Teléfono sólo ingrese dígitos">
-								<f:validateRegex pattern="[0-9]+"/>
-								</b:inputText>
-							</b:column>
-			       		</b:row>
-						<b:row>
-			       			<b:column span="3"><h:outputLabel value="Nacionalidad*: " /></b:column>
-			       			<b:column span="9">
-			       				<b:inputText  required="true" value="#{registroBean.nacionalidad}" requiredMessage="Requerido Nacionalidad" validatorMessage="Nacionalidad sólo ingrese letras">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
-								</b:inputText>
-							</b:column>
-			       		</b:row>	
-						<b:row>
-			       		<b:column span="3"><h:outputLabel value="Ciudad de Residencia*: " /></b:column>
-			       			<b:column span="9">
-			       				<b:inputText  required="true" value="#{registroBean.recidencia}" requiredMessage="Requerido Residencia" validatorMessage="Residencia sólo ingrese letras">
-								<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+"/>
-								</b:inputText>
-							</b:column>
-			       		</b:row>		
-			       		<b:row>
-			       			<b:column span="3"><h:outputLabel value="¿Cuál es su interés en formar parte del Club de Drones Yachay?*" /></b:column>
-			       			<b:column span="9">
-			       				<b:inputTextarea maxlength="200" renderLabel="true"  fieldSize="sm" required="true" value="#{registroBean.interes}" requiredMessage="Requerido Interés"/>
-							</b:column>
-			       		</b:row>	
-						<b:row>
-				       		<b:column span="3">
-				       			<h:outputLabel value="¿Posee un dron?" />
-				       		</b:column>
-			       		<b:column span="9">
-			       				<p:selectOneRadio  value="#{registroBean.poseeDron}" style="margin-top:10px" >
-					            <f:selectItem itemLabel="SI" itemValue="true" />
-					            <f:selectItem itemLabel="NO" itemValue="false" />
-					       	    </p:selectOneRadio>
-							</b:column>
-			       		</b:row>
-			       		<b:row>
 							<b:column span="3">
-			       				<h:outputLabel value="¿Posee experiencia con drones?" />
+								<h:outputLabel value="Apellidos*: " for="apellidos" />
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="apellidos" styleClass="form-control"
+									style="width:100%; margin-bottom:15px;" required="true"
+									value="#{registroBean.apellidos}"
+									requiredMessage="Requerido Apellidos"
+									validatorMessage="Apellidos sólo ingrese letras">
+									<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+								</p:inputText>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="Nombres*: " for="nombres" />
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="nombres" required="true"
+								    styleClass="form-control" style="width:100%; margin-bottom:15px;" 
+									value="#{registroBean.nombres}"
+									requiredMessage="Requerido Nombres"
+									validatorMessage="Nombres sólo ingrese letras">
+									<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+								</p:inputText>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="Correo*: " for="correo"/>
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="correo" required="true" value="#{registroBean.correo}"
+								styleClass="form-control" style="width:100%; margin-bottom:15px;" 
+									requiredMessage="Requerido Correo"
+									validatorMessage="El formato del correo no es el correcto">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+							</b:column>
+						</b:row>
+
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="Repetir Correo*: " for="correor"/>
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="correor" required="true" value="#{registroBean.confCorreo}"
+								styleClass="form-control" style="width:100%; margin-bottom:15px;" 
+									requiredMessage="Requerido repetir Correo"
+									validatorMessage="El formato de repetir correo no es el correcto">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="Teléfono*: " for="tele"/>
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="tele" required="true" maxlength="10"
+									value="#{registroBean.telefono}"
+									styleClass="form-control" style="width:100%; margin-bottom:15px;" 
+									requiredMessage="Requerido Teléfono"
+									validatorMessage="Teléfono sólo ingrese dígitos">
+									<f:validateRegex pattern="[0-9]+" />
+								</p:inputText>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="Nacionalidad*: " for="nac"/>
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="nac" required="true"
+									value="#{registroBean.nacionalidad}"
+									styleClass="form-control" style="width:100%; margin-bottom:15px;" 
+									requiredMessage="Requerido Nacionalidad"
+									validatorMessage="Nacionalidad sólo ingrese letras">
+									<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+								</p:inputText>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="Ciudad de Residencia*: " for="resi"/>
+							</b:column>
+							<b:column span="9">
+								<p:inputText id="resi" required="true" value="#{registroBean.recidencia}"
+								styleClass="form-control" style="width:100%; margin-bottom:15px;" 
+									requiredMessage="Requerido Residencia"
+									validatorMessage="Residencia sólo ingrese letras">
+									<f:validateRegex pattern="[a-zA-Z ñíóúéáÑÁÉÍÓÚ]+" />
+								</p:inputText>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel
+									value="¿Cuál es su interés en formar parte del Club de Drones Yachay?*" for="inter"/>
+							</b:column>
+							<b:column span="9">
+								<p:inputTextarea id="inter" maxlength="200" renderLabel="true"
+								styleClass="form-control" style="width:100%; margin-bottom:15px;" 
+									fieldSize="sm" required="true" value="#{registroBean.interes}"
+									requiredMessage="Requerido Interés" />
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="¿Posee un dron?" />
+							</b:column>
+							<b:column span="9">
+								<p:selectOneRadio value="#{registroBean.poseeDron}"
+									style="margin-top:10px">
+									<f:selectItem itemLabel="SI" itemValue="true" />
+									<f:selectItem itemLabel="NO" itemValue="false" />
+								</p:selectOneRadio>
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column span="3">
+								<h:outputLabel value="¿Posee experiencia con drones?" />
 							</b:column>
 							<b:column span="9">
 								<p:selectOneRadio value="#{registroBean.poseeExperiencia}"
@@ -120,19 +182,26 @@
 							<b:column span="12">
 								<center>
 									<b:commandButton id="btnguar" value="Guardar registro"
-									actionListener="#{registroBean.validar()}" look="primary"
-									update=":frm" />
+										actionListener="#{registroBean.validar()}" look="primary"
+										update=":frm:messages"/> 
 									&nbsp;&nbsp;&nbsp;&nbsp;
-									<p:commandButton value="Limpiar Campos" update=":frm" process="@this" actionListener="#{registroBean.vaciarCampos()}" styleClass="btn btn-primary" style="padding:7px;" />
+									<b:commandButton value="Limpiar Campos" update=":frm:messages"
+										action="#{registroBean.vaciarCampos()}"
+										styleClass="btn btn-primary" style="padding:7px;"  process="@this"/>
 								</center>
 							</b:column>
 						</b:row>
-						<p:confirmDialog header="Confirmar Registro" message="Está seguro de registrarse?" showEffect="fade"
-							 hideEffect="explode" widgetVar="dlgconf" width="300" closable="false" closeOnEscape="false">
-					        <b:commandButton value="Si" oncomplete="PF('dlgconf').hide()"  actionListener="#{registroBean.registrarse()}" update=":frm">
-					        </b:commandButton>
-					        <b:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" onclick="PF('dlgconf').hide()"></b:commandButton>
-					    </p:confirmDialog>
+						<p:confirmDialog header="Confirmar Registro"
+							message="Está seguro de registrarse?" showEffect="fade"
+							hideEffect="explode" widgetVar="dlgconf" width="300"
+							closable="false" closeOnEscape="false">
+							<b:commandButton value="Si" oncomplete="PF('dlgconf').hide()"
+								action="#{registroBean.registrarse()}" update=":frm:messages"> 
+							</b:commandButton>
+							<b:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+								onclick="PF('dlgconf').hide()"></b:commandButton>
+						</p:confirmDialog>
 					</h:form>
 				</b:panel>
 			</b:column>
